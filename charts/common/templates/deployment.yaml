@@ -44,8 +44,14 @@ spec:
       volumes:
         {{- range $volume := .Values.deployment.volumes }}
         - name: {{ $fullName }}-{{ $volume.name }}-volume
+        {{- if $volume.configMap }}
+          {{- toYaml $volume.configMap | nindent 10 }}
+        {{- else if $volume.secret }}
+          {{- toYaml $volume.secret | nindent 10 }}
+        {{- else }}
           persistentVolumeClaim:
             claimName: {{ $fullName }}-{{ $volume.name }}-pvc
+        {{- end }}
         {{- end }}
       {{- end }}
       containers:
@@ -58,6 +64,9 @@ spec:
             {{- range $volume := .Values.deployment.volumes }}
             - name: {{ $fullName }}-{{ $volume.name }}-volume
               mountPath: {{ $volume.mountPath }}
+              {{- if or $volume.configMap $volume.secret }}
+              readOnly: true
+              {{- end }}
             {{- end }}
           {{- end }}
           {{- if .Values.command }}

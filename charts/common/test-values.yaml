@@ -53,6 +53,14 @@ deployment:
         gidRangeEnd: "2000" # optional
         basePath: "/dynamic_provisioning" # optional
 
+    - name: custom-entrypoint
+      mountPath: /custom-entrypoint
+      configMap:
+        name: custom-entrypoint
+        items:
+        - key: custom-entrypoint.sh
+          path: custom-entrypoint.sh
+
 cronjob:
   enabled: false
   jobs:
@@ -202,3 +210,10 @@ env:
     type: parameterStore
     name: example-db
     parameter_name: DB_PASSWORD
+
+configMap:
+  name: custom-entrypoint
+  data:
+    custom-entrypoint.sh: |
+      #!/bin/sh
+      echo "Hello there!"
