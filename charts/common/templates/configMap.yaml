@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.configMap.name }}
+  name: {{ $fullName }}-{{ .Values.configMap.name }}-volume
   labels:
     {{- include "common.labels" . | nindent 4 }}
     {{- with .Values.labels }}
