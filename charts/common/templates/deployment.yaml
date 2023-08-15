@@ -43,23 +43,14 @@ spec:
       {{- if .Values.deployment.volumes }}
       volumes:
         {{- range $volume := .Values.deployment.volumes }}
-        #{{- if $volume.configMap }}
         - name: {{ $volume.name }}
           configMap:
-            #{{- toYaml $volume.configMap | nindent 12 }}
             name: {{ $volume.configMap.name }}
             items:
-            - key: {{ $volume.configMap.items.key }}
-              path: {{ $volume.configMap.items.path }}
-        #{{- else if $volume.secret }}
-        #- name: {{ $volume.name }}
-        #  secret:
-        #   {{- toYaml $volume.secret | nindent 12 }}
-        #{{- else }}
-        #- name: {{ $fullName }}-{{ $volume.name }}-volume
-        #  persistentVolumeClaim:
-        #    claimName: {{ $fullName }}-{{ $volume.name }}-pvc
-        #{{- end }}
+            {{- range $item := $volume.configMap.items }}
+            - key: {{ $item.key }}
+              path: {{ $item.path }}
+            {{- end }}
         {{- end }}
       {{- end }}
       containers:
@@ -70,15 +61,8 @@ spec:
           {{- if .Values.deployment.volumes }}
           volumeMounts:
             {{- range $volume := .Values.deployment.volumes }}
-            #{{- if $volume.configMap }}
             - name: {{ $volume.name }}
               readOnly: true
-            #{{- else if $volume.secret }}
-            #- name: {{ $volume.secret.name }}
-            #  readOnly: true
-            #{{- else }}
-            #- name: {{ $fullName }}-{{ $volume.name }}-volume
-            #{{- end}}
               mountPath: {{ $volume.mountPath }}
             {{- end }}
           {{- end }}
