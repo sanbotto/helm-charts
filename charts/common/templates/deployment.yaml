@@ -46,11 +46,11 @@ spec:
         #{{- if $volume.configMap }}
         - name: {{ $volume.name }}
           configMap:
-          {{- toYaml $volume.configMap | nindent 10 }}
+            {{- toYaml $volume.configMap | nindent 12 }}
         #{{- else if $volume.secret }}
         #- name: {{ $volume.name }}
         #  secret:
-        #  {{- toYaml $volume.secret | nindent 10 }}
+        #   {{- toYaml $volume.secret | nindent 12 }}
         #{{- else }}
         #- name: {{ $fullName }}-{{ $volume.name }}-volume
         #  persistentVolumeClaim:
