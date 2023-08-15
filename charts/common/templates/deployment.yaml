@@ -45,8 +45,10 @@ spec:
         {{- range $volume := .Values.deployment.volumes }}
         - name: {{ $fullName }}-{{ $volume.name }}-volume
         {{- if $volume.configMap }}
+          configMap:
           {{- toYaml $volume.configMap | nindent 10 }}
         {{- else if $volume.secret }}
+          secret:
           {{- toYaml $volume.secret | nindent 10 }}
         {{- else }}
           persistentVolumeClaim:
