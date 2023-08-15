@@ -79,6 +79,17 @@ entries:
     - https://github.com/sanbotto/helm-charts/releases/download/common-0.0.15-beta3/common-0.0.15-beta3.tgz
     version: 0.0.15-beta3
   - apiVersion: v2
+    appVersion: 0.0.15-beta12
+    created: "2023-08-15T18:41:22.520320571Z"
+    description: A Helm chart for Kubernetes
+    digest: 565d01a479ddd5b64b16d07eccdaa470c97ebaabd2348ba27ce62ad5d1d7cc0a
+    icon: https://cncf-branding.netlify.app/img/projects/helm/horizontal/color/helm-horizontal-color.png
+    name: common
+    type: application
+    urls:
+    - https://github.com/sanbotto/helm-charts/releases/download/common-0.0.15-beta12/common-0.0.15-beta12.tgz
+    version: 0.0.15-beta12
+  - apiVersion: v2
     appVersion: 0.0.15-beta11
     created: "2023-08-15T18:29:11.959009839Z"
     description: A Helm chart for Kubernetes
@@ -111,4 +122,4 @@ entries:
     urls:
     - https://github.com/techops-services/helm-charts/releases/download/common-0.0.14/common-0.0.14.tgz
     version: 0.0.14
-generated: "2023-08-15T18:29:11.959056839Z"
+generated: "2023-08-15T18:41:22.520693479Z"
