@@ -43,19 +43,19 @@ spec:
       {{- if .Values.deployment.volumes }}
       volumes:
         {{- range $volume := .Values.deployment.volumes }}
-        {{- if $volume.configMap }}
-        - name: {{ $volume.configMap.name }}
+        #{{- if $volume.configMap }}
+        - name: {{ $volume.name }}
           configMap:
           {{- toYaml $volume.configMap | nindent 10 }}
-        {{- else if $volume.secret }}
-        - name: {{ $volume.secret.name }}
-          secret:
-          {{- toYaml $volume.secret | nindent 10 }}
-        {{- else }}
-        - name: {{ $fullName }}-{{ $volume.name }}-volume
-          persistentVolumeClaim:
-            claimName: {{ $fullName }}-{{ $volume.name }}-pvc
-        {{- end }}
+        #{{- else if $volume.secret }}
+        #- name: {{ $volume.name }}
+        #  secret:
+        #  {{- toYaml $volume.secret | nindent 10 }}
+        #{{- else }}
+        #- name: {{ $fullName }}-{{ $volume.name }}-volume
+        #  persistentVolumeClaim:
+        #    claimName: {{ $fullName }}-{{ $volume.name }}-pvc
+        #{{- end }}
         {{- end }}
       {{- end }}
       containers:
@@ -66,15 +66,15 @@ spec:
           {{- if .Values.deployment.volumes }}
           volumeMounts:
             {{- range $volume := .Values.deployment.volumes }}
-            {{- if $volume.configMap }}
-            - name: {{ $volume.configMap.name }}
+            #{{- if $volume.configMap }}
+            - name: {{ $volume.name }}
               readOnly: true
-            {{- else if $volume.secret }}
-            - name: {{ $volume.secret.name }}
-              readOnly: true
-            {{- else }}
-            - name: {{ $fullName }}-{{ $volume.name }}-volume
-            {{- end}}
+            #{{- else if $volume.secret }}
+            #- name: {{ $volume.secret.name }}
+            #  readOnly: true
+            #{{- else }}
+            #- name: {{ $fullName }}-{{ $volume.name }}-volume
+            #{{- end}}
               mountPath: {{ $volume.mountPath }}
             {{- end }}
           {{- end }}
