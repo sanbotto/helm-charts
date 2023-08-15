@@ -1,9 +1,8 @@
 {{- if .Values.configMap }}
-{{- $fullName := include "common.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $fullName }}-{{ .Values.configMap.name }}-volume
+  name: {{ .Values.configMap.name }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
     {{- with .Values.labels }}

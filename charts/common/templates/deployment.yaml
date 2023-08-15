@@ -43,14 +43,16 @@ spec:
       {{- if .Values.deployment.volumes }}
       volumes:
         {{- range $volume := .Values.deployment.volumes }}
-        - name: {{ $fullName }}-{{ $volume.name }}-volume
         {{- if $volume.configMap }}
+        - name: {{ $volume.configMap.name }}
           configMap:
           {{- toYaml $volume.configMap | nindent 10 }}
         {{- else if $volume.secret }}
+        - name: {{ $volume.secret.name }}
           secret:
           {{- toYaml $volume.secret | nindent 10 }}
         {{- else }}
+        - name: {{ $fullName }}-{{ $volume.name }}-volume
           persistentVolumeClaim:
             claimName: {{ $fullName }}-{{ $volume.name }}-pvc
         {{- end }}
@@ -64,11 +66,14 @@ spec:
           {{- if .Values.deployment.volumes }}
           volumeMounts:
             {{- range $volume := .Values.deployment.volumes }}
+            {{- if or $volume.configMap $volume.secret }}
+            - name: {{ coalesce $volume.configMap.name $volume.secret.name }}
+              mountPath: {{ $volume.mountPath }}
+              readOnly: true
+            {{- else }}
             - name: {{ $fullName }}-{{ $volume.name }}-volume
               mountPath: {{ $volume.mountPath }}
-              {{- if or $volume.configMap $volume.secret }}
-              readOnly: true
-              {{- end }}
+            {{- end }}
             {{- end }}
           {{- end }}
           {{- if .Values.command }}
