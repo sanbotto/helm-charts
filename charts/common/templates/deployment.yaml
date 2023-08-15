@@ -46,7 +46,11 @@ spec:
         #{{- if $volume.configMap }}
         - name: {{ $volume.name }}
           configMap:
-            {{- toYaml $volume.configMap | nindent 12 }}
+            #{{- toYaml $volume.configMap | nindent 12 }}
+            name: {{ $volume.configMap.name }}
+            items:
+            - key: {{ $volume.configMap.items.key }}
+              path: {{ $volume.configMap.items.path }}
         #{{- else if $volume.secret }}
         #- name: {{ $volume.name }}
         #  secret:
